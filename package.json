@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "name": "latest-checkin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fibershot",
+  "license": "MIT",
+  "description": "Webtool for checking the latest logins for an intune bound device with the device's name.",
+  "dependencies": {
+    "@azure/identity": "^4.5.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
+    "express": "^4.21.1",
+    "isomorphic-fetch": "^3.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fibershot/latest-checkin-intune.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fibershot/latest-checkin-intune/issues"
+  },
+  "homepage": "https://github.com/fibershot/latest-checkin-intune#readme"
+}
