@@ -1,6 +1,9 @@
+// Script that interacts with index.html
 async function fetchAndReturn() {
+    // Fetch data from input field
     const input = document.getElementById("serial").elements[0].value;
 
+    // Send POST request to endpoint /api/fetch-logon
     try {
         const response = await fetch('/api/fetch-logon', {
             method: 'POST',
@@ -10,9 +13,13 @@ async function fetchAndReturn() {
             body: JSON.stringify({ serial: input }),
         });
 
+        // Wait for a response and save it to result
         const result = await response.json();
+
+        // If response (200)
         if (response.ok) {
 
+            // Display data on the webpage
             const resultDiv = document.getElementById("result");
             resultDiv.innerHTML = "";
 
@@ -34,5 +41,12 @@ async function fetchAndReturn() {
         }
     } catch (error) {
         console.error('Error:', error);
+    }
+}
+
+function checkEnter(event){
+    if (event.key == "Enter"){
+        window.alert("You pressed", event.key);
+        fetchAndReturn();
     }
 }

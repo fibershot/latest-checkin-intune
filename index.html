@@ -6,8 +6,8 @@
     <title>Device Fetcher</title>
 </head>
 <body>
-    <form id="serial">
-        Serial: <input type="text"><br>
+    <form id="serial" action="javascript:void(0);" onsubmit="fetchAndReturn()">
+        Serial: <input type="text" onkeypress="checkEnter()"/>
         <input type="button" onclick="fetchAndReturn()" value="Submit">
     </form>
     

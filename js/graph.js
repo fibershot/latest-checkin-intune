@@ -12,7 +12,7 @@ let _appClient = undefined;
 // Initialize Graph authentication (app only)
 export async function initializeGraph(settings) {
 
-    // Check that settings are defined and define them
+    // Check that settings are defined and if not - define them
     if (!settings){throw new Error("Settings are undefined.");}
     _settings = settings;
 
@@ -40,20 +40,22 @@ export async function initializeGraph(settings) {
     }
 }
 
-// First part
 // Function for fetching logon
 export async function fetchLogon(DEVICE_SERIAL) {
     let result = [];
-    const device = await deviceFetchCall(DEVICE_SERIAL);
+
+    // Wait for device to be fetched
+    const device = await deviceFetchCall(DEVICE_SERIAL);    
     if (device) {
-        const userIds = device.usersLoggedOn.map(user => user.userId);
-        const userNames = await fetchUserName(userIds);
+        const userIds = device.usersLoggedOn.map(user => user.userId);  // Sort device users by userId
+        const userNames = await fetchUserName(userIds);                 // Use userIds to fetch display names
 
         console.log("Device name:", device.deviceName);
         for (const user of device.usersLoggedOn) {
             const userName = userNames[user.userId] || "UNKNOWN USER";
             console.log("User:", userName, "Last Logon:", user.lastLogOnDateTime);
 
+            // Add users to an array
             result.push({
                 userName: userNames[user.userId] || "UNKNOWN USER",
                 lastLogOnDateTime: user.lastLogOnDateTime,
@@ -63,14 +65,15 @@ export async function fetchLogon(DEVICE_SERIAL) {
         console.log("Device not found. Check serial number.");
     }
 
+    // JSON stringify result array for transportation
     JSON.stringify(result);
     return result;
 }
 
-// Second part
 // Search with _appClient for a device name, device id and the user id
 async function deviceFetchCall(SERIAL) {
     console.log("Searching device with serial", SERIAL);
+    // Get request
     const result = await _appClient
         .api("/deviceManagement/managedDevices")
         .version("beta")
@@ -81,7 +84,6 @@ async function deviceFetchCall(SERIAL) {
     return result.value && result.value.length > 0 ? result.value[0] : null;
 }
 
-// Third part
 // Fetch username from the unusable user id
 async function fetchUserName(USERIDS) {
     console.log("Parsing userids", USERIDS);

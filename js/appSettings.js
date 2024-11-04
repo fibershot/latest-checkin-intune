@@ -1,7 +1,8 @@
+// App configuration
 const settings = {
-    clientId: 'CLIENT_ID',
-    tenantId: 'TENANT_ID',
-    clientSecret: 'CLIENT_SECRET'
+    clientId: '',
+    tenantId: '',
+    clientSecret: ''
   };
   
 export default settings;
