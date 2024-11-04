@@ -20,12 +20,16 @@ async function fetchAndReturn() {
         if (response.ok) {
             const resultDiv = document.getElementById("result");
             resultDiv.innerHTML = "";
-            if (result.results[0] === undefined) {
+            console.log(result);
+            if (result.results.length == 0){
+                const failure = document.createElement("h2");
+                failure.textContent = "No recent logins to device.";
+                resultDiv.appendChild(failure);
+            } else if (result.results[0].userName === undefined) {
                 const failure = document.createElement("h2");
                 failure.textContent = "No device found.";
                 resultDiv.appendChild(failure);
             } else {
-
                 // Display data on the webpage
                 const deviceTitle = document.createElement("h1");
                 deviceTitle.textContent = result.results[0].displayName;
