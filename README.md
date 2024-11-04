@@ -10,4 +10,5 @@ Module installation<br>
 ```npm install @azure/identity @microsoft/microsoft-graph-client isomorphic-fetch express```
 
 ### Usage
- Run <strong>node index.js</strong> and use port 1869 or configure your own
+ Add your client and tenant IDs and client secret to appSettings.js.
+ Run <strong>node index.js</strong> to launch server to port 1869.
