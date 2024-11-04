@@ -10,7 +10,7 @@ const PORT = 1869;
 
 // Define express settings
 app.use(express.json());
-app.use(express.static(path.join(process.cwd(), 'public')));
+app.use(express.static("public"));
 
 // Connect to MS Graph
 initializeGraph(settings);

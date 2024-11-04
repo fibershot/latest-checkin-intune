@@ -1,0 +1,94 @@
+@font-face {
+    font-family: opensans;
+    src: url("../fonts/opensans.ttf");
+}
+
+.input-box {
+    width: 150px;
+    height: 25px;
+    font-size: 1em;
+    text-align: center;
+}
+
+.submit-box {
+    height: 2.25em;
+    padding-top: 0.2em;
+    text-align: center;
+}
+
+.form_
+{
+    padding-left: 2.75em;
+    padding-top: 2.75em;
+    padding-bottom: 1em;
+}
+
+html {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: opensans;
+    height: 100%;
+}
+
+ul {
+    list-style-type: none;
+    text-align: left;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    padding-left: 40px;
+    color: #a6c273;
+    font-size: 1.5em;
+    margin: 0;
+    text-align: left;
+}
+
+h2 {
+    padding-left: 40px;
+    color: #ad5656;
+    font-size: 1.5em;
+    margin: 0;
+    text-align: left;
+}
+
+
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        padding: 20px;
+    }
+
+    .box {
+        width: 120px;
+        height: 120px;
+        padding: 30px;
+    }
+
+    .box a {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        height: auto;
+        padding: 20px;
+    }
+
+    .box a {
+        font-size: 1em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+    
+    body {
+        height: auto;
+    }
+}

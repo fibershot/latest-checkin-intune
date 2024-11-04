@@ -59,10 +59,14 @@ export async function fetchLogon(DEVICE_SERIAL) {
             result.push({
                 userName: userNames[user.userId] || "UNKNOWN USER",
                 lastLogOnDateTime: user.lastLogOnDateTime,
+                displayName: device.deviceName
             });
         }
     } else {
         console.log("Device not found. Check serial number.");
+        result.push({
+            failure: true
+        });
     }
 
     // JSON stringify result array for transportation

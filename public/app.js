@@ -18,35 +18,42 @@ async function fetchAndReturn() {
 
         // If response (200)
         if (response.ok) {
-
-            // Display data on the webpage
             const resultDiv = document.getElementById("result");
             resultDiv.innerHTML = "";
+            if (result.results[0] === undefined) {
+                const failure = document.createElement("h2");
+                failure.textContent = "No device found.";
+                resultDiv.appendChild(failure);
+            } else {
 
-            const userList = document.createElement("ul");
+                // Display data on the webpage
+                const deviceTitle = document.createElement("h1");
+                deviceTitle.textContent = result.results[0].displayName;
+                const userList = document.createElement("ul");
 
-            let j = 0;
-            for (let i = 0; i < result.results.length; i++) {
-                console.log(result.results[j].userName);
-                const userItem = document.createElement("li");
-                userItem.textContent = "User: " + result.results[j].userName + " Login date: " + result.results[j].lastLogOnDateTime;
-                userList.appendChild(userItem);
-                j++;
-            }
+                let j = result.results.length;
+                for (let i = 0; i < result.results.length; i++) {
+                    j--;
+                    const userItem = document.createElement("li");
+                    const options = { 
+                        year: 'numeric', 
+                        month: 'numeric', 
+                        day: 'numeric', 
+                        hour: 'numeric', 
+                        minute: 'numeric', 
+                        second: 'numeric' 
+                    };
+                    userItem.textContent = result.results[j].userName + " - " + new Date(result.results[j].lastLogOnDateTime).toLocaleDateString(undefined, options);
+                    userList.appendChild(userItem);
+                }
 
-            resultDiv.appendChild(userList);
-            
+                resultDiv.appendChild(deviceTitle);
+                resultDiv.appendChild(userList);
+            }    
         } else {
             console.error(result.error);
         }
     } catch (error) {
         console.error('Error:', error);
-    }
-}
-
-function checkEnter(event){
-    if (event.key == "Enter"){
-        window.alert("You pressed", event.key);
-        fetchAndReturn();
     }
 }

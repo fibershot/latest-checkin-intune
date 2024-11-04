@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Device Fetcher</title>
 </head>
 <body>
-    <form id="serial" action="javascript:void(0);" onsubmit="fetchAndReturn()">
-        Serial: <input type="text" onkeypress="checkEnter()"/>
-        <input type="button" onclick="fetchAndReturn()" value="Submit">
+    <form class="form_" id="serial" action="javascript:void(0);" onsubmit="fetchAndReturn()">
+        <input type="text" placeholder="Serial" class="input-box"/>
+        <input type="button" onclick="fetchAndReturn()" class="submit-box" value="&#x1F50E;">
     </form>
     
     <div id="result"></div>
