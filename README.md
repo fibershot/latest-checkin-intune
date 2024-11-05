@@ -2,13 +2,14 @@
 Webtool for checking the latest logins for an intune bound device with the device's name.
 
 ### Info
-A web application designed for the purpose of fetching the latest logins for example a shared device.
-Made this, because there didn't seem to be a black and white way of doing it, considering the Graph API from Microsoft is still in developement.
+A web application designed for the purpose of fetching the latest logins for example a shared device.<br>
+Made this, because there didn't seem to be a black and white way of doing it, considering the Graph API from Microsoft is still in developement.<br>
+And there is linux compatability (made because of pm2!)... crazy!
 
 ### Modules 
 Module installation 
 ```npm install```<br>
-Modules used: ```@azure/identity @microsoft/microsoft-graph-client isomorphic-fetch express```
+Modules used: ```@azure/identity @microsoft/microsoft-graph-client isomorphic-fetch express pm2```
 
 ### Modifiers
  <strong>Token authentication</strong><br>

@@ -1,27 +1,29 @@
-// Import modules
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import settings from "./js/appSettings.js";
 import { fetchLogon, initializeGraph } from "./js/graph.js";
 import { checkToken } from './js/auth.js';
 
-// Define variables
+// Define __dirname manually
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = 1869;
 var AUTH = false;
 
-// Define express settings
 app.use(express.json());
 app.use(express.static("public"));
+app.use('/css', express.static(path.join(__dirname, 'public', 'css'), { setHeaders: (res) => res.set('Content-Type', 'text/css') }));
+app.use('/js', express.static(path.join(__dirname, 'public', 'js'), { setHeaders: (res) => res.set('Content-Type', 'application/javascript') }));
+app.use('/fonts', express.static(path.join(__dirname, 'public', 'fonts'), { setHeaders: (res) => res.set('Content-Type', 'font/ttf') }));
 
-// Connect to MS Graph
 initializeGraph(settings);
 
-// Authentication - auth.js
 app.post('/api/fetch-token', async (req, res) => {
     const { address } = req.body;
     try {
-        // Check if the token in url matches given token
         const results = await checkToken(address);
 
         if (results) {
@@ -38,17 +40,14 @@ app.post('/api/fetch-token', async (req, res) => {
     }
 });
 
-// Get data about users and devices - return to app.js request
 app.post('/api/fetch-logon', async (req, res) => {
     const { serial } = req.body;
     try {
-        // Require token AUTH
         if (AUTH){
-            // Send request to graph.js for data
             const results = await fetchLogon(serial);
             res.status(200).json({ results });
         } else {
-            res.status(403).json({ error: '[AUTH] Invalid token.'})
+            res.status(403).json({ error: '[AUTH] Invalid token.'});
         }
     } catch (error) {
         console.error(error);
@@ -56,12 +55,11 @@ app.post('/api/fetch-logon', async (req, res) => {
     }
 });
 
-// Serve the HTML file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Listen to defined port
 app.listen(PORT, () => {
     console.log(`[INFO] Server is running on http://localhost:${PORT}`);
 });
+
