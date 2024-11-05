@@ -9,6 +9,10 @@ let _settings = undefined;
 let _clientSecret = undefined;
 let _appClient = undefined;
 
+let MINIMUM_LENGTH = 8;
+let COOLDOWN = false;
+let COOLDOWN_TIME = 1000;
+
 // Initialize Graph authentication (app only)
 export async function initializeGraph(settings) {
 
@@ -42,36 +46,51 @@ export async function initializeGraph(settings) {
 
 // Function for fetching logon
 export async function fetchLogon(DEVICE_SERIAL) {
-    let result = [];
 
-    // Wait for device to be fetched
-    const device = await deviceFetchCall(DEVICE_SERIAL);    
-    if (device) {
-        const userIds = device.usersLoggedOn.map(user => user.userId);  // Sort device users by userId
-        const userNames = await fetchUserName(userIds);                 // Use userIds to fetch display names
-
-        console.log("Device name:", device.deviceName);
-        for (const user of device.usersLoggedOn) {
-            const userName = userNames[user.userId] || "UNKNOWN USER";
-            console.log("User:", userName, "Last Logon:", user.lastLogOnDateTime);
-
-            // Add users to an array
-            result.push({
-                userName: userNames[user.userId] || "UNKNOWN USER",
-                lastLogOnDateTime: user.lastLogOnDateTime,
-                displayName: device.deviceName
-            });
+    if (DEVICE_SERIAL.length >= MINIMUM_LENGTH){
+        if (!COOLDOWN){
+            let result = [];
+    
+            // Wait for device to be fetched
+            const device = await deviceFetchCall(DEVICE_SERIAL);    
+            if (device) {
+                const userIds = device.usersLoggedOn.map(user => user.userId);  // Sort device users by userId
+                const userNames = await fetchUserName(userIds);                 // Use userIds to fetch display names
+        
+                console.log("Device name:", device.deviceName);
+                for (const user of device.usersLoggedOn) {
+                    const userName = userNames[user.userId] || "UNKNOWN USER";
+                    console.log("User:", userName, "Last Logon:", user.lastLogOnDateTime);
+        
+                    // Add users to an array
+                    result.push({
+                        userName: userNames[user.userId] || "UNKNOWN USER",
+                        lastLogOnDateTime: user.lastLogOnDateTime,
+                        displayName: device.deviceName
+                    });
+                }
+            } else {
+                console.log("Device not found. Check serial number.");
+                result.push({
+                    failure: true
+                });
+            }
+    
+            COOLDOWN = true;
+            setTimeout(function (){
+                cooldown = false;
+            }, COOLDOWN_TIME);
+    
+            // JSON stringify result array for transportation
+            JSON.stringify(result);
+            return result;
+    
+        } else {
+            console.log("Query cooldown active.");
         }
     } else {
-        console.log("Device not found. Check serial number.");
-        result.push({
-            failure: true
-        });
+        console.log("Device search length must be larger or equal to 8.");
     }
-
-    // JSON stringify result array for transportation
-    JSON.stringify(result);
-    return result;
 }
 
 // Search with _appClient for a device name, device id and the user id

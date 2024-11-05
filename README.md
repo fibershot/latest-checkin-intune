@@ -7,8 +7,20 @@ Made this, because there didn't seem to be a black and white way of doing it, co
 
 ### Modules 
 Module installation<br>
-```npm install @azure/identity @microsoft/microsoft-graph-client isomorphic-fetch express```
+```npm install```<br>
+Modules used: ```@azure/identity @microsoft/microsoft-graph-client isomorphic-fetch express```
+
+### Modifiers
+ <strong>Token authentication</strong><br>
+ - auth.js allows basic token authentication directly from the URL (<strong>e.g: ?token=abc123456def</strong>)
+
+ <strong>Client-, tenant- and secret key</strong><br>
+ - appSettings.js requires app identifiers in order to function
+ 
+ <strong>Request timeout and length of request</strong><br>
+ - graph.js contains timeout and minimum length variables
+
 
 ### Usage
  Add your client and tenant IDs and client secret to appSettings.js.
- Run <strong>node index.js</strong> to launch server to port 1869.
+ Run <strong>node index.js</strong> to launch server to port <strong>1869</strong>.

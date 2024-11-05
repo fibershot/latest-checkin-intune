@@ -1,3 +1,34 @@
+async function tokenAuth() {
+    const URL_ = window.location.href;
+    console.log(URL_)
+
+    try {
+        const response = await fetch('/api/fetch-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address: URL_ }),
+        });
+
+        // Wait for a response and save it to result
+        const result = await response.json();
+
+        // If response (200)
+        if (response.ok) {
+            console.log("Valid token.");
+        } else {
+            console.error(result.error);
+        }
+    }
+    
+    catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+tokenAuth();
+
 // Script that interacts with index.html
 async function fetchAndReturn() {
     // Fetch data from input field
