@@ -29,12 +29,12 @@ app.post('/api/fetch-token', async (req, res) => {
             res.status(200).json({ results });
         } else {
             AUTH = false;
-            res.status(403).json({ error: 'Invalid token.'});
+            res.status(403).json({ error: '[AUTH] Invalid token.'});
         }
     } catch (error) {
         AUTH = false;
         console.error(error);
-        res.status(500).json({ error: 'Error fetching token details.' });
+        res.status(500).json({ error: '[AUTH] Error fetching token details.' });
     }
 });
 
@@ -48,11 +48,11 @@ app.post('/api/fetch-logon', async (req, res) => {
             const results = await fetchLogon(serial);
             res.status(200).json({ results });
         } else {
-            res.status(403).json({ error: 'Invalid token.'})
+            res.status(403).json({ error: '[AUTH] Invalid token.'})
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error fetching logon details.' });
+        res.status(500).json({ error: '[ERROR] Error fetching logon details.' });
     }
 });
 
@@ -63,5 +63,5 @@ app.get('/', (req, res) => {
 
 // Listen to defined port
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`[INFO] Server is running on http://localhost:${PORT}`);
 });

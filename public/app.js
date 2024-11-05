@@ -16,14 +16,14 @@ async function tokenAuth() {
 
         // If response (200)
         if (response.ok) {
-            console.log("Valid token.");
+            console.log("[AUTH] Valid token.");
         } else {
             console.error(result.error);
         }
     }
     
     catch (error) {
-        console.error('Error:', error);
+        console.error('[AUTH] Error:', error);
     }
 }
 

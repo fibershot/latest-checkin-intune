@@ -17,7 +17,7 @@ let COOLDOWN_TIME = 1000;
 export async function initializeGraph(settings) {
 
     // Check that settings are defined and if not - define them
-    if (!settings){throw new Error("Settings are undefined.");}
+    if (!settings){throw new Error("[ERROR] Settings are undefined.");}
     _settings = settings;
 
     // Define client secret
@@ -46,7 +46,6 @@ export async function initializeGraph(settings) {
 
 // Function for fetching logon
 export async function fetchLogon(DEVICE_SERIAL) {
-
     if (DEVICE_SERIAL.length >= MINIMUM_LENGTH){
         if (!COOLDOWN){
             let result = [];
@@ -57,10 +56,10 @@ export async function fetchLogon(DEVICE_SERIAL) {
                 const userIds = device.usersLoggedOn.map(user => user.userId);  // Sort device users by userId
                 const userNames = await fetchUserName(userIds);                 // Use userIds to fetch display names
         
-                console.log("Device name:", device.deviceName);
+                console.log("[INFO] Device name:", device.deviceName);
                 for (const user of device.usersLoggedOn) {
                     const userName = userNames[user.userId] || "UNKNOWN USER";
-                    console.log("User:", userName, "Last Logon:", user.lastLogOnDateTime);
+                    console.log("[INFO] User:", userName, "Last Logon:", user.lastLogOnDateTime);
         
                     // Add users to an array
                     result.push({
@@ -70,7 +69,7 @@ export async function fetchLogon(DEVICE_SERIAL) {
                     });
                 }
             } else {
-                console.log("Device not found. Check serial number.");
+                console.log("[INFO] Device not found. Check serial number.");
                 result.push({
                     failure: true
                 });
@@ -78,7 +77,7 @@ export async function fetchLogon(DEVICE_SERIAL) {
     
             COOLDOWN = true;
             setTimeout(function (){
-                cooldown = false;
+                COOLDOWN = false;
             }, COOLDOWN_TIME);
     
             // JSON stringify result array for transportation
@@ -86,16 +85,16 @@ export async function fetchLogon(DEVICE_SERIAL) {
             return result;
     
         } else {
-            console.log("Query cooldown active.");
+            console.log("[INFO] Query cooldown active.");
         }
     } else {
-        console.log("Device search length must be larger or equal to 8.");
+        console.log("[INFO] Device search length must be larger or equal to 8.");
     }
 }
 
 // Search with _appClient for a device name, device id and the user id
 async function deviceFetchCall(SERIAL) {
-    console.log("Searching device with serial", SERIAL);
+    console.log("[INFO] Searching device with serial", SERIAL);
     // Get request
     const result = await _appClient
         .api("/deviceManagement/managedDevices")
@@ -109,7 +108,7 @@ async function deviceFetchCall(SERIAL) {
 
 // Fetch username from the unusable user id
 async function fetchUserName(USERIDS) {
-    console.log("Parsing userids", USERIDS);
+    console.log("[INFO] Parsing userids", USERIDS);
     const userNames = {};
     // Loop through every found userid to search for displayname
     for (const USERID of USERIDS) {
@@ -122,7 +121,7 @@ async function fetchUserName(USERIDS) {
             userNames[USERID] = user.displayName || user.userPrincipalName || "UNKNOWN USER";
         }
         catch (error) {
-            console.log("Error fetching user for ID:", USERID, error);
+            console.log("[ERROR] Error fetching user for ID:", USERID, error);
             userNames[USERID] = "UNKNOWN USER";
         }
     } 
